@@ -4,16 +4,17 @@ import GuessForm from './GuessForm'
 import '../App.css';
 import WordToGuess from "./WordToGuess";
 import GuessList from "./GuessList";
+import Status from './Status'
 
 class Game extends Component {
 
 
     state = {
-        word: "ANIMAL",
+        word: "ABANDONMENTS",
         goodGuess: [],
         badGuess: [],
-        won: false,
-        lost: false
+        remaining: 6,
+        status: "start",
     }
 
 
@@ -24,13 +25,13 @@ class Game extends Component {
         if (this.state.word.includes(char)) {
 
             this.setState((state) => (
-                { ...state, goodGuess: [...state.goodGuess, char]}
+                { ...state, goodGuess: [...state.goodGuess, char], status: "goodGuess"}
             ))
 
             const newGuess = this.state.goodGuess.concat([char])
 
             if ([...this.state.word].every((elem) => {return newGuess.includes(elem)})) {
-                this.setState({ won: true })
+                this.setState({ status: "won" })
             }
 
         }
@@ -38,33 +39,36 @@ class Game extends Component {
         else {
 
             this.setState((state) => (
-                { ...state, badGuess: [...state.badGuess, char]}
+                { ...state, remaining: state.remaining - 1,
+                    badGuess: [...state.badGuess, char],
+                    status: "badGuess"}
             ))
 
-            if (this.state.badGuess.length + 1 === 6) {
-                this.setState({ lost: true })
+            if (this.state.remaining - 1 === 0) {
+                this.setState({ status: "lost" })
             }
         }
 
     }
 
     render() {
-        const {word, goodGuess, badGuess, won, lost} = this.state
+        const {word, goodGuess, badGuess, status, remaining } = this.state
 
         return (
             <div>
 
                 <WordToGuess word={word} goodGuess={goodGuess}/>
 
-                {won ? <p>Wow, you won the game.</p>
+                {status === "won" || status === "lost" ? <div></div>
                     :
-                    lost ? <p>Wow, you lost the game.</p>
-                        :
-                        <GuessForm makeGuess={this.makeGuess}/>
+                    <GuessForm makeGuess={this.makeGuess}/>
                 }
 
 
-                <GuessList badGuess={this.state.badGuess}/>
+                <div className="bottom-area">
+                    <GuessList badGuess={badGuess}/>
+                    <Status type={status} remaining={remaining}/>
+                </div>
 
             </div>
         )
