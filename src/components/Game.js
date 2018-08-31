@@ -4,7 +4,7 @@ import '../App.css';
 import WordToGuess from "./WordToGuess";
 import GuessList from "./GuessList";
 import Status from './Status'
-import { Link } from 'react-router-dom'
+import LinkButton from './LinkButton'
 
 class Game extends Component {
 
@@ -91,9 +91,9 @@ class Game extends Component {
                 {status === "won" || status === "lost" ?
                     <div className={"endgame"}>
                         <button className={"button"} onClick={this.replayGame}>Replay Game</button>
-                        <Link to={"/"}>
-                            <button className={"button"} onClick={this.exitGame}>Main Menu</button>
-                        </Link>
+                        <LinkButton to={"/"} onClick={this.exitGame}>
+                            Main Menu
+                        </LinkButton>
                     </div>
                     :
                     <GuessForm makeGuess={this.makeGuess}/>

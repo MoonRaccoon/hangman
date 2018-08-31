@@ -1,5 +1,5 @@
 import React from 'react';
-import  { Link } from 'react-router-dom'
+import LinkButton from './LinkButton'
 import '../App.css';
 
 const Menu = (props) => {
@@ -21,9 +21,7 @@ const Menu = (props) => {
                    value={difficulty}
                    className="slider"
                    onChange={handleChange} />
-            <Link to={"/game"}>
-                <button className={"button"} onClick={startGame}>Start Game</button>
-            </Link>
+            <LinkButton to={"/game"} onClick={startGame}>Start Game</LinkButton>
         </div>
     )
 }
