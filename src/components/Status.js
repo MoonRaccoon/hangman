@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import '../App.css'
 
 const Status = (props) => {
+
+    const variant = props.remaining === 1 ? " guess" : " guesses"
+
     switch(props.type){
         default:
             return (
@@ -10,11 +13,11 @@ const Status = (props) => {
             )
         case "goodGuess":
             return (
-                <div>Good guess! You still have {props.remaining} guesses remaining.</div>
+                <div>Good guess! You still have {props.remaining} {variant} remaining.</div>
             )
         case "badGuess":
             return (
-                <div>Whoops, you guessed wrong! You now have {props.remaining} guesses remaining.</div>
+                <div>Whoops, you guessed wrong! You now have {props.remaining} {variant} remaining.</div>
             )
         case "won":
             return (
@@ -32,7 +35,7 @@ const Status = (props) => {
             return (
                 <div>
                     You already guessed that letter!
-                    Don't worry, you still have {props.remaining} guesses remaining.
+                    Don't worry, you still have {props.remaining} {variant} remaining.
                 </div>
             )
     }
