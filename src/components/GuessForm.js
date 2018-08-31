@@ -22,7 +22,8 @@ class GuessForm extends Component {
         return (
             <form onSubmit={this.handleSubmit}>
                 <input className="guess-form"
-                       type="text" value={this.state.value}
+                       type="text"
+                       value={this.state.value}
                        onChange={this.handleChange}
                        maxLength={1}>
                 </input>

@@ -4,7 +4,7 @@ import '../App.css'
 
 const Status = (props) => {
     switch(props.type){
-        case "start":
+        default:
             return (
                 <div>Type an alphabetical character and then press the enter/return key to make a guess.</div>
             )
@@ -22,7 +22,18 @@ const Status = (props) => {
             )
         case "lost":
             return (
-                <div>Oh no, you ran out of guesses! Want to try playing again?</div>
+                <div>Oh no, you ran out of guesses! Want to try again?</div>
+            )
+        case "invalid":
+            return (
+                <div>Sorry, that character is invalid! You can only guess letters from the alphabet.</div>
+            )
+        case "repeat":
+            return (
+                <div>
+                    You already guessed that letter!
+                    Don't worry, you still have {props.remaining} guesses remaining.
+                </div>
             )
     }
 }

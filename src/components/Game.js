@@ -1,28 +1,33 @@
 import React, { Component } from 'react';
-import Character from './Character'
 import GuessForm from './GuessForm'
 import '../App.css';
 import WordToGuess from "./WordToGuess";
 import GuessList from "./GuessList";
 import Status from './Status'
+import { Link } from 'react-router-dom'
 
 class Game extends Component {
 
 
     state = {
-        word: "ABANDONMENTS",
         goodGuess: [],
         badGuess: [],
         remaining: 6,
-        status: "start",
+        status: "",
     }
 
 
     makeGuess = (char) => {
 
+        if (!char.match(/[A-Z]/)) {
+            this.setState({ status: "invalid"})
+        }
 
+        else if (this.state.goodGuess.includes(char) || this.state.badGuess.includes(char)) {
+            this.setState({ status: "repeat"})
+        }
 
-        if (this.state.word.includes(char)) {
+        else if (this.props.word.includes(char)) {
 
             this.setState((state) => (
                 { ...state, goodGuess: [...state.goodGuess, char], status: "goodGuess"}
@@ -30,7 +35,7 @@ class Game extends Component {
 
             const newGuess = this.state.goodGuess.concat([char])
 
-            if ([...this.state.word].every((elem) => {return newGuess.includes(elem)})) {
+            if ([...this.props.word].every((elem) => {return newGuess.includes(elem)})) {
                 this.setState({ status: "won" })
             }
 
@@ -45,21 +50,51 @@ class Game extends Component {
             ))
 
             if (this.state.remaining - 1 === 0) {
-                this.setState({ status: "lost" })
+                this.setState((state) => (
+                    { ...state, status: "lost", goodGuess: [...this.props.word]}
+                ))
             }
         }
 
     }
 
+    exitGame = () => {
+        this.setState({
+            goodGuess: [],
+            badGuess: [],
+            remaining: 6,
+            status: "",
+        })
+        this.props.clearState()
+    }
+
+    replayGame = () => {
+        this.props.replay()
+        this.setState({
+            goodGuess: [],
+            badGuess: [],
+            remaining: 6,
+            status: "",
+        })
+        this.props.startGame()
+
+    }
+
     render() {
-        const {word, goodGuess, badGuess, status, remaining } = this.state
+        const { goodGuess, badGuess, status, remaining } = this.state
 
         return (
             <div>
 
-                <WordToGuess word={word} goodGuess={goodGuess}/>
+                <WordToGuess word={this.props.word} goodGuess={goodGuess}/>
 
-                {status === "won" || status === "lost" ? <div></div>
+                {status === "won" || status === "lost" ?
+                    <div className={"endgame"}>
+                        <button className={"button"} onClick={this.replayGame}>Replay Game</button>
+                        <Link to={"/"}>
+                            <button className={"button"} onClick={this.exitGame}>Main Menu</button>
+                        </Link>
+                    </div>
                     :
                     <GuessForm makeGuess={this.makeGuess}/>
                 }
