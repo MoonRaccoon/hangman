@@ -26,7 +26,7 @@ A live, playable version of this project is hosted at [https://build-exbulfhemf.
 
 Aside from that, listed below are a series of instructions that should get my project up and running on your local machine:
 
-1. Download and install Node.js. If the option is given, make sure you select the option to install the NPM package manager. More details [here](https://build-exbulfhemf.now.sh).
+1. Download and install Node.js. If the option is given, make sure you select the option to install the NPM package manager. More details [here](https://nodejs.org/en/download/).
 
 2. Open a command line window, and navigate to the directory where this README is located.
 
