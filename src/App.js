@@ -15,6 +15,9 @@ class App extends Component {
 
 
     startGame = () => {
+
+
+
         HangmanAPI.getWord(this.state.difficulty)
             .then((words) => {
                 this.setState({
@@ -22,7 +25,17 @@ class App extends Component {
                     loaded: true
                 })
             })
-            .catch(() => this.setState({ word: "Reach", loaded: true})) // Set default if request fails due to CORS
+            .catch(() => {
+                const def = [
+                    "reach", "inclusion", "superb", "dance",
+                    "tree", "mighty", "alphabetical", "polite",
+                    "extreme", "happy"
+                ]
+
+                const rand =  Math.floor(Math.random() * 10)
+
+                this.setState({ word: def[rand], loaded: true})
+            }) // Set default if request fails due to CORS
     }
 
     handleChange = (event) => {

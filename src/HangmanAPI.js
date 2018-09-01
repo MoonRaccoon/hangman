@@ -1,4 +1,4 @@
-const api = "http://app.linkedin-reach.io/words"
+const api = "https://app.linkedin-reach.io/words"
 
 export const getWord = (difficulty) => {
 
